@@ -35,7 +35,14 @@ function Section({ children, title }: SectionProps): React.JSX.Element {
   const isDarkMode = useColorScheme() === 'dark';
   return (
     <View style={styles.sectionContainer}>
-      <Text style={tw`text-2xl font-bold text-red-600`}>{title}</Text>
+      <Text
+        style={tw`
+          text-3xl
+          font-bold
+          text-red-600
+        `}>
+        {title}
+      </Text>
       <Text
         style={[
           styles.sectionDescription,
