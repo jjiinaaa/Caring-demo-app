@@ -1,0 +1,6 @@
+- tanstack query 라이브러리
+  - api를 쉽게 관리하고 캐싱을 쉽게 해주는 라이브러리
+  - https://tanstack.com/query/latest/docs/framework/react/installation
+- Hook api는 라이브러리 사용으로 따로 분리하는 용도. 
+  - server api는 실제 api 호출 관리
+  - hook api는 실제 api 메서드를 사용하여 tanstack query 라이브러리를 활용하여 관리
