@@ -5,7 +5,7 @@
  * @format
  */
 
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import type { PropsWithChildren } from 'react';
 import './src/styles/global.css';
 import tw from 'tailwind-react-native-classnames';
@@ -53,6 +53,7 @@ function Section({ children, title }: SectionProps): React.JSX.Element {
 
 function App(): React.JSX.Element {
   const isDarkMode = useColorScheme() === 'dark';
+  const [screenEvent, setScreenEvent] = useState('No Event');
 
   const backgroundStyle = {
     backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
@@ -63,17 +64,14 @@ function App(): React.JSX.Element {
     const eventEmitter = new NativeEventEmitter(ScreenReceiver);
     const subscription = eventEmitter.addListener('ScreenEvent', (event) => {
       console.log(`Screen Event Received: ${event}`);
-      if (event === 'SCREEN_ON') {
-        console.log('Screen is ON');
-      } else if (event === 'SCREEN_OFF') {
-        console.log('Screen is OFF');
-      }
+      setScreenEvent(event); // Update state based on screen event
     });
 
     return () => {
       subscription.remove();
     };
   }, []);
+
   return (
     <SafeAreaView style={backgroundStyle}>
       <StatusBar
@@ -82,6 +80,16 @@ function App(): React.JSX.Element {
       />
       <ScrollView contentInsetAdjustmentBehavior="automatic" style={backgroundStyle}>
         <Header />
+        <View style={tw`flex-1 items-center justify-center`}>
+          {/* Dynamic UI based on screen state */}
+          {screenEvent === 'SCREEN_OFF' ? (
+            <Text style={tw`text-2xl font-bold text-red-500 mt-4`}>Screen is OFF</Text>
+          ) : screenEvent === 'SCREEN_ON' ? (
+            <Text style={tw`text-2xl font-bold text-green-500 mt-4`}>Screen is ON</Text>
+          ) : (
+            <Text style={tw`text-lg text-gray-600 mt-4`}>Waiting for Screen Event...</Text>
+          )}
+        </View>
         <View
           style={{
             backgroundColor: isDarkMode ? Colors.black : Colors.white,
