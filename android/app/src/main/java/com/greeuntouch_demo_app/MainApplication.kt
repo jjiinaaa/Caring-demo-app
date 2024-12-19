@@ -1,4 +1,4 @@
-package com.greeuntouch_admin_app
+package com.greeuntouch_demo_app
 
 import android.app.Application
 import com.facebook.react.PackageList

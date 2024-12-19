@@ -5,7 +5,7 @@
  * @format
  */
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import type { PropsWithChildren } from 'react';
 import './src/styles/global.css';
 import tw from 'tailwind-react-native-classnames';
@@ -17,6 +17,8 @@ import {
   Text,
   useColorScheme,
   View,
+  NativeEventEmitter,
+  NativeModules,
 } from 'react-native';
 
 import {
@@ -56,6 +58,22 @@ function App(): React.JSX.Element {
     backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
   };
 
+  useEffect(() => {
+    const { ScreenReceiver } = NativeModules;
+    const eventEmitter = new NativeEventEmitter(ScreenReceiver);
+    const subscription = eventEmitter.addListener('ScreenEvent', (event) => {
+      console.log(`Screen Event Received: ${event}`);
+      if (event === 'SCREEN_ON') {
+        console.log('Screen is ON');
+      } else if (event === 'SCREEN_OFF') {
+        console.log('Screen is OFF');
+      }
+    });
+
+    return () => {
+      subscription.remove();
+    };
+  }, []);
   return (
     <SafeAreaView style={backgroundStyle}>
       <StatusBar

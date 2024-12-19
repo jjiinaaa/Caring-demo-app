@@ -116,4 +116,7 @@ dependencies {
     } else {
         implementation jscFlavor
     }
+
+    //kotlin 표준라이브러리 추가
+    implementation("org.jetbrains.kotlin:kotlin-stdlib:1.8.21")
 }

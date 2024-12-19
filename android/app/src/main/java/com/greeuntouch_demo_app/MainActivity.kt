@@ -1,4 +1,4 @@
-package com.greeuntouch_admin_app
+package com.greeuntouch_demo_app
 
 import com.facebook.react.ReactActivity
 import com.facebook.react.ReactActivityDelegate
