@@ -75,7 +75,7 @@ function App(): React.JSX.Element {
               font-bold
               text-blue-600
             `}>
-              App.tsx, App
+              App.tsx, Ap
             </Text>{' '}
             to change this screen and then come back to see your edits.
           </Section>
