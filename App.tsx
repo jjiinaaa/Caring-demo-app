@@ -17,7 +17,6 @@ import {
   Text,
   useColorScheme,
   View,
-  NativeEventEmitter,
   NativeModules,
 } from 'react-native';
 
@@ -28,6 +27,10 @@ import {
   LearnMoreLinks,
   ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen';
+import Netinfo, { useNetInfo } from "@react-native-community/netinfo";
+import { useScreenStatus } from './src/hooks/useScreenStatus';
+import { useBatteryLevel } from './src/hooks/useBatteryLevel';
+
 
 type SectionProps = PropsWithChildren<{
   title: string;
@@ -51,26 +54,19 @@ function Section({ children, title }: SectionProps): React.JSX.Element {
   );
 }
 
+
 function App(): React.JSX.Element {
   const isDarkMode = useColorScheme() === 'dark';
-  const [screenEvent, setScreenEvent] = useState('No Event');
+  const screenStatus=useScreenStatus();
+  const batteryLevel=useBatteryLevel();
+  const netinfo=useNetInfo();
 
   const backgroundStyle = {
     backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
   };
 
-  useEffect(() => {
-    const { ScreenReceiver } = NativeModules;
-    const eventEmitter = new NativeEventEmitter(ScreenReceiver);
-    const subscription = eventEmitter.addListener('ScreenEvent', (event) => {
-      console.log(`Screen Event Received: ${event}`);
-      setScreenEvent(event); // Update state based on screen event
-    });
 
-    return () => {
-      subscription.remove();
-    };
-  }, []);
+  
 
   return (
     <SafeAreaView style={backgroundStyle}>
@@ -80,44 +76,45 @@ function App(): React.JSX.Element {
       />
       <ScrollView contentInsetAdjustmentBehavior="automatic" style={backgroundStyle}>
         <Header />
-        <View style={tw`flex-1 items-center justify-center`}>
-          {/* Dynamic UI based on screen state */}
-          {screenEvent === 'SCREEN_OFF' ? (
-            <Text style={tw`text-2xl font-bold text-red-500 mt-4`}>Screen is OFF</Text>
-          ) : screenEvent === 'SCREEN_ON' ? (
-            <Text style={tw`text-2xl font-bold text-green-500 mt-4`}>Screen is ON</Text>
-          ) : (
-            <Text style={tw`text-lg text-gray-600 mt-4`}>Waiting for Screen Event...</Text>
-          )}
-        </View>
         <View
           style={{
             backgroundColor: isDarkMode ? Colors.black : Colors.white,
-          }}>
-          <Section title="Step One">
-            Edit{' '}
-            <Text
-              style={tw`
-              font-bold
-              text-blue-600
-            `}>
-              App.tsx, Ap
-            </Text>{' '}
-            to change this screen and then come back to see your edits.
+          }}
+        >
+          <Section title="Screen Status">
+              <Text style={tw`text-xl font-bold text-blue-600`}>
+                Screen Status: {screenStatus}
+              </Text>
+          
           </Section>
-          <Section title="See Your Changes">
-            <ReloadInstructions />
+  
+          <Section title="Battery Level Test">
+              <Text style={tw`text-xl font-bold text-green-600`}>
+                Battery Level: {batteryLevel}
+              </Text>
           </Section>
-          <Section title="Debug">
-            <DebugInstructions />
+  
+          <Section title="Network Status Test">
+            {netinfo ? (
+              <>
+                <Text style={tw`text-lg`}>
+                  Type: {netinfo.type}
+                </Text>
+                <Text style={tw`text-lg`}>
+                  , Connected: {netinfo.isConnected ? 'Connected' : 'Disconnected'}
+                </Text>
+              </>
+            ) : (
+              <Text style={tw`text-lg text-red-600`}>Checking network status...</Text>
+            )}
           </Section>
-          <Section title="Learn More">Read the docs to discover what to do next:</Section>
+  
           <LearnMoreLinks />
         </View>
       </ScrollView>
     </SafeAreaView>
   );
-}
+}  
 
 const styles = StyleSheet.create({
   sectionContainer: {
