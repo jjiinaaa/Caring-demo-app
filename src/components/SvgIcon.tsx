@@ -12,7 +12,7 @@ type IconProps = SvgProps & {
 
 function Icon({ name, size, onPress }: IconProps) {
   const SvgIcon = Icons[name];
-  console.log(Icons[name]);
+
   if (!SvgIcon) {
     console.error(`Invalid icon name: "${name}". Please check Icons object.`);
     return null; // 유효하지 않은 아이콘 이름 처리
