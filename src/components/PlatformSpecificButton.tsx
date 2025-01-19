@@ -6,16 +6,16 @@ import { PlatformSpecificButtonProps } from '../types/HomeScreenType';
 const PlatformSpecificButton: React.FC<PlatformSpecificButtonProps> = ({ children, onPress }) => {
   return Platform.select({
     ios: (
-      <TouchableOpacity activeOpacity={0.5} onPress={onPress} className="mb-6">
+      <TouchableOpacity activeOpacity={0.8} onPress={onPress}>
         {children}
       </TouchableOpacity>
     ),
     android: (
-      <View className="overflow-hidden mb-6">
+      <View className="overflow-hidden ">
         <TouchableNativeFeedback onPress={onPress}>{children}</TouchableNativeFeedback>
       </View>
     ),
-    default: <View className="overflow-hidden mb-6">{children}</View>, // `default`를 JSX로 설정
+    default: <View className="overflow-hidden">{children}</View>, // `default`를 JSX로 설정
   })!;
 };
 
