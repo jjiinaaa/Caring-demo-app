@@ -3,7 +3,7 @@ import '../styles/global.css';
 import { View, Text, SafeAreaView, ScrollView, Image } from 'react-native';
 
 import Header from '../components/main/Header';
-import WhiteBox from '../layout/WhiteBox';
+import WhiteBox from '../layouts/WhiteBox';
 import StatusBox from '../components/main/StatusBox';
 import CallButton from '../components/main/CallButton';
 import WelfareNew from '../components/main/WelfareNew';
