@@ -1,8 +1,8 @@
 import React from 'react';
 import { View, Text, Image } from 'react-native';
 
-import SvgIcon from '../SvgIcon';
-import PlatformSpecificButton from '../PlatformSpecificButton';
+import SvgIcon from '@_components/SvgIcon';
+import PlatformSpecificButton from '@_components/PlatformSpecificButton';
 
 function WelfareNew(): React.JSX.Element {
   const handlePress = () => {

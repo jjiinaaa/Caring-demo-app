@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text } from 'react-native';
 
-import WhiteBox from '../../layouts/WhiteBox';
+import WhiteBox from '@_layouts/WhiteBox';
 
 function MyInfoWhiteBox({
   title,

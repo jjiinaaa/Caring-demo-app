@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text } from 'react-native';
 
-import { FamilyInfo } from '../../types/familyInfo';
+import { FamilyInfo } from '@_types/familyInfo';
 
 function FamilyInfoBox({ name, relationship, phoneNumber }: FamilyInfo): React.JSX.Element {
   return (

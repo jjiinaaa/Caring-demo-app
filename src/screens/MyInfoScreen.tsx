@@ -1,15 +1,15 @@
 import React, { useState } from 'react';
 import { View, Text, Image, SafeAreaView, ScrollView } from 'react-native';
 
-import { MyInfoScreenProps } from '../types/bottomBar';
+import { MyInfoScreenProps } from '@_types/bottomBar';
 
-import SvgIcon from '../components/SvgIcon';
-import WhiteBox from '../layouts/WhiteBox';
-import MyInfoWhiteBox from '../components/myInfo/MyInfoWhiteBox';
-import FamilyInfoBox from '../components/myInfo/FamilyInfoBox';
+import SvgIcon from '@_components/SvgIcon';
+import WhiteBox from '@_layouts/WhiteBox';
+import MyInfoWhiteBox from '@_components/myInfo/MyInfoWhiteBox';
+import FamilyInfoBox from '@_components/myInfo/FamilyInfoBox';
 
-import { FamilyInfo } from '../types/familyInfo';
-import PlatformSpecificButton from '../components/PlatformSpecificButton';
+import { FamilyInfo } from '@_types/familyInfo';
+import PlatformSpecificButton from '@_components/PlatformSpecificButton';
 
 function MyInfoScreen({ navigation }: MyInfoScreenProps): React.JSX.Element {
   const [name, setName] = useState<string>('홍길동');
@@ -48,7 +48,7 @@ function MyInfoScreen({ navigation }: MyInfoScreenProps): React.JSX.Element {
           <View className="w-1/5 mr-3 items-center justify-center">
             <Image
               className="w-16 h-16 rounded-full"
-              source={require('../assets/images/img_user.png')}
+              source={require('@_assets/images/img_user.png')}
             />
           </View>
           <View className="justify-center w-4/5">
