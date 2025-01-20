@@ -1,16 +1,6 @@
 import React, { useState } from 'react';
 import '../styles/global.css';
-import {
-  View,
-  Text,
-  Button,
-  SafeAreaView,
-  ScrollView,
-  Image,
-  TouchableOpacity,
-  TouchableNativeFeedback,
-  Platform,
-} from 'react-native';
+import { View, Text, SafeAreaView, ScrollView, Image } from 'react-native';
 
 import Header from '../components/main/Header';
 import StatusBox from '../components/main/StatusBox';
@@ -31,7 +21,7 @@ function SampleHomeScreen({ navigation }: SampleHomeScreenProps): React.JSX.Elem
             <View className="w-16 h-16 mb-4">
               <Image className="w-full h-full" source={require('../assets/images/img_user.png')} />
             </View>
-            <Text className="text-xl font-normal mb-6">{name}</Text>
+            <Text className="text-xl mb-6">{name}</Text>
             <StatusBox status="safe" />
             <CallButton />
             <Text className="text-gray50 mt-4">마지막 업데이트 : 2024.12.12 12:33</Text>

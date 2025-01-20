@@ -1,7 +1,7 @@
 import React from 'react';
 import { Platform, TouchableOpacity, TouchableNativeFeedback, View } from 'react-native';
 
-import { PlatformSpecificButtonProps } from '../types/HomeScreenType';
+import { PlatformSpecificButtonProps } from '../types/homeScreen';
 
 const PlatformSpecificButton: React.FC<PlatformSpecificButtonProps> = ({ children, onPress }) => {
   return Platform.select({
