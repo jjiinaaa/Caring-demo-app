@@ -1,62 +1,37 @@
 import React, { useState } from 'react';
 import '../styles/global.css';
-import {
-  View,
-  Text,
-  Button,
-  SafeAreaView,
-  Image,
-  TouchableOpacity,
-  TouchableNativeFeedback,
-  Platform,
-} from 'react-native';
+import { View, Text, SafeAreaView, ScrollView, Image } from 'react-native';
 
-import SvgIcon from '../components/SvgIcon';
+import Header from '../components/main/Header';
+import WhiteBox from '../layout/WhiteBox';
+import StatusBox from '../components/main/StatusBox';
+import CallButton from '../components/main/CallButton';
+import WelfareNew from '../components/main/WelfareNew';
 
-function SampleHomeScreen({ navigation }: any): React.JSX.Element {
-  const [welfareCenter, setWelfareCenter] = useState<string>('행복 복지관');
+import { SampleHomeScreenProps } from '../types/bottomBar';
 
-  const sosButton = (
-    <View className="flex-row bg-[#A90000] items-center justify-center border-red-800 rounded-lg px-2.5 py-2">
-      <View className="flex-row items-center">
-        <View className="bg-[#F45454] rounded-full w-8 h-8 mr-2"></View>
-        <Text className="text-xl font-bold text-white">SOS 긴급 도움 요청하기</Text>
-      </View>
-    </View>
-  );
+function SampleHomeScreen({ navigation }: SampleHomeScreenProps): React.JSX.Element {
+  const [name, setName] = useState<string>('홍길동');
 
   return (
     <>
-      <SafeAreaView className="flex-1 bg-[#F8F8F8]">
-        <View className="flex-column bg-white h-32 border-b border-[#F0F0F0] px-4 justify-evenly">
-          <View className="flex-row items-center justify-between">
-            <View className="flex-row items-center">
-              <SvgIcon name="MapPin" />
-              <Text className="text-sm font-bold text-gray-800">{welfareCenter} </Text>
-              <Text className="text-sm font-regular text-gray-800">소속</Text>
+      <SafeAreaView className="flex-1 bg-gray5">
+        <Header />
+        <ScrollView>
+          <WhiteBox styleName="mt-4 items-center">
+            <View className="w-16 h-16 mb-4">
+              <Image className="w-full h-full" source={require('../assets/images/img_user.png')} />
             </View>
-            <TouchableOpacity activeOpacity={0.5} onPress={() => {}}>
-              <View>
-                <Text className="text-sm font-bold text-helpBlue">도움말</Text>
-              </View>
-            </TouchableOpacity>
-          </View>
-          {Platform.select({
-            ios: (
-              <TouchableOpacity activeOpacity={0.5} onPress={() => {}}>
-                {sosButton}
-              </TouchableOpacity>
-            ),
-            android: (
-              <View className="overflow-hidden">
-                <TouchableNativeFeedback onPress={() => {}}>{sosButton}</TouchableNativeFeedback>
-              </View>
-            ),
-          })}
-        </View>
-        <View className="flex-1 items-center justify-center">
-          <Text className="text-3xl font-black text-red-600">Sample Home Screen</Text>
-        </View>
+            <Text className="text-xl mb-6">{name}</Text>
+            <StatusBox status="safe" />
+            <CallButton />
+            <Text className="text-gray50 mt-4">마지막 업데이트 : 2024.12.12 12:33</Text>
+          </WhiteBox>
+          <WhiteBox>
+            <Text className="text-xl font-bold mb-6">복지관 소식</Text>
+            <WelfareNew />
+          </WhiteBox>
+        </ScrollView>
       </SafeAreaView>
     </>
   );
