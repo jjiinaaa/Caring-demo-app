@@ -25,6 +25,8 @@ export { default as Battery85Off } from './ic_battery_85_off.svg';
 export { default as Battery100Black } from './ic_battery_100_black.svg';
 export { default as Battery100Off } from './ic_battery_100_off.svg';
 
+export { default as BatteryAlert } from './ic_battery_alert.svg';
+
 // bell icon
 export { default as Bell } from './ic_bell.svg';
 
