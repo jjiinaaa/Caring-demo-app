@@ -109,7 +109,7 @@ function TestScreen(): React.JSX.Element {
     <View style={styles.container}>
       <Text style={styles.title}>Foreground Service Demo</Text>
       <View style={styles.statusContainer}>
-        <Text>Battery Level: {batteryStatus.level}%</Text>
+        <Text className="text-red-800">Battery Level: {batteryStatus.level}%</Text>
         <Text>Charging: {batteryStatus.isCharging ? 'Yes' : 'No'}</Text>
         <Text>Screen Status: {screenStatus ? 'Yes' : 'No'}</Text>
         <Text>Network Connected: {networkConnected ? 'Yes' : 'No'}</Text>
