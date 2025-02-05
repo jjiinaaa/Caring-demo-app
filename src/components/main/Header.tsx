@@ -7,8 +7,8 @@ export default function Header(): React.JSX.Element {
   const [welfareCenter, setWelfareCenter] = useState<string>('행복 복지관');
 
   const sosButton = (
-    <View className="flex-row bg-red700 items-center justify-center rounded-lg px-2.5 py-2">
-      <View className="flex-row items-center">
+    <View className="flex flex-row bg-red700 items-center justify-center rounded-lg px-2.5 py-2">
+      <View className="flex flex-row items-center">
         <View className=" mr-2">
           <SvgIcon name="Bell" size={32} />
         </View>
@@ -18,9 +18,9 @@ export default function Header(): React.JSX.Element {
   );
 
   return (
-    <View className="flex-column bg-gray0 h-32 border-b border-gray10 px-4 justify-evenly">
-      <View className="flex-row items-center justify-between">
-        <View className="flex-row items-center">
+    <View className="flex flex-column bg-gray0 h-32 border-b border-gray10 px-4 justify-evenly">
+      <View className="flex flex-row items-center justify-between">
+        <View className="flex flex-row items-center">
           <View className="mr-2">
             <SvgIcon name="MapLine" size={18} />
           </View>

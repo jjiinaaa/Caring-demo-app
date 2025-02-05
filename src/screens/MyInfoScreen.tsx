@@ -36,7 +36,7 @@ function MyInfoScreen({ navigation }: MyInfoScreenProps): React.JSX.Element {
     },
     {
       name: '선우용여',
-      relationship: '우주대마왕의 비서실장 고문',
+      relationship: '아버지의 사촌당숙',
       phoneNumber: '010-1234-5678',
     },
   ]);
@@ -44,7 +44,7 @@ function MyInfoScreen({ navigation }: MyInfoScreenProps): React.JSX.Element {
   return (
     <SafeAreaView className="flex-1 bg-gray5">
       <ScrollView>
-        <View className="w-full bg-gray0 px-4 py-6 flex-row">
+        <View className="flex flex-row w-full bg-gray0 px-4 py-6">
           <View className="w-1/5 mr-3 items-center justify-center">
             <Image
               className="w-16 h-16 rounded-full"
@@ -53,7 +53,7 @@ function MyInfoScreen({ navigation }: MyInfoScreenProps): React.JSX.Element {
           </View>
           <View className="justify-center w-4/5">
             <Text className="text-xl mb-1 text-gray100">{name}</Text>
-            <View className="flex-row">
+            <View className="flex flex-row">
               <SvgIcon name="MapFilled" size={18} />
               <Text className="text-gray70 font-bold text-sm ml-1">{welfareName}</Text>
               <Text className="text-gray70 text-sm"> 소속</Text>

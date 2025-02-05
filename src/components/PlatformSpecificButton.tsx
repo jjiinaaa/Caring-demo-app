@@ -11,7 +11,7 @@ const PlatformSpecificButton: React.FC<PlatformSpecificButtonProps> = ({ childre
       </TouchableOpacity>
     ),
     android: (
-      <View className="overflow-hidden ">
+      <View className="overflow-hidden">
         <TouchableNativeFeedback onPress={onPress}>{children}</TouchableNativeFeedback>
       </View>
     ),

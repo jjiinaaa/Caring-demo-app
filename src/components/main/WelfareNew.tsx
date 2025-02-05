@@ -11,7 +11,7 @@ function WelfareNew(): React.JSX.Element {
 
   return (
     <PlatformSpecificButton onPress={handlePress}>
-      <View className="flex-row items-center py-3">
+      <View className="flex flex-row items-center py-3">
         <View className="w-3/12">
           <View className="w-16 h-16 mx-auto">
             <Image
