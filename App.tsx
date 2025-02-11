@@ -8,6 +8,7 @@ import TestScreen from '@_screens/TestScreen';
 import SampleHomeScreen from '@_screens/SampleHomeScreen';
 import MyInfoScreen from '@_screens/MyInfoScreen';
 
+
 const Stack = createNativeStackNavigator();
 
 function App(): React.JSX.Element {

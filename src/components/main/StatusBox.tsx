@@ -1,99 +1,122 @@
-import React from 'react';
+import React,{useEffect,useMemo,useState}from 'react';
 import { View } from 'react-native';
 
 import StatusIndicator from './StatusBoxComponents/StatusIndicator';
 import NetworkStatus from './StatusBoxComponents/NetworkStatus';
 import BatteryStatus from './StatusBoxComponents/BatteryStatus';
 import BatteryAlert from './StatusBoxComponents/BatteryAlert';
-
+import { AlertStatus ,ALERT_ICONS,AlertMesssage} from '@_types/statusBox';
 import { StatusType } from '@_types/homeScreen';
 import { IconName } from '@_types/icon';
+function StatusBox({ code, batteryLevel, networkConnected,userState }: { 
+  code: string | null; 
+  batteryLevel: number; 
+  networkConnected: boolean; 
+  userState:string;
+}): React.JSX.Element {
 
-function StatusBox({ status }: { status: StatusType }): React.JSX.Element {
-  let iconConfig: IconName[] = ['AlertDefault', 'GlobeOn', 'Battery100Black', 'BatteryAlert'];
+  const [status, setStatus] = useState<AlertStatus>(
+    userState === "위험" ? "danger" : userState === "경고" ? "warning" : "default"
+  );
+  useEffect(() => {
+    const newStatus = userState === "위험" ? "danger" : userState === "경고" ? "warning" : "default";
 
-  // To. 나은
-  // 배터리가 상당히 icon이 많아. 현재는 단순 배터리 값을 3개로 나누어서 사용하고 있지만, 세분화되어버렸어.
-  // 문제는 배터리 상태와 네트워크를 따져야해. 그래서 이 부분을 어떻게 처리할지 고민이야.
-  // 일단 status가 받아와지는 값이니깐 이거 측정되는 페이지에서 safe, warning, danger, notNetwork를 측정해서 받아와서.
-  // 내가 생각하기에는 밑에 상태 값으로 나누고, 또 내부에서 if 문이나나 삼항 연산자로 네트워크 여부를 나누면 좋을 거 같아.
-  // 나도 마땅히 생각나는 방법이 없어서 대충 바꿨는데, 좋은 방안이 있다면 한 번 알고리즘을 생각해서 바꿔봐.
-  // 아래는 신경써야할 모든 상황을 적어둘게.
+    if (newStatus !== status) {
+      console.log("상태 변경 감지:", status, "->", newStatus);
+      setStatus(newStatus);
+    }
+  }, [userState,networkConnected,batteryLevel]); // `batteryLevel` 제거 -> 무한 루프 방지
 
-  /*
-    1-1. 배터리가 0~5% 및 네트워크 연결시에는 배터리 아이콘 이름을 Battery0Red으로 표시해야해. 
-    1-2. 배터리가 0~5% 및 네트워크 끊김시에는 배터리 아이콘 이름을 Battery0Off으로 표시해야해.
-    2-1. 배터리가 5~15% 및 네트워크 연결시에는 배터리 아이콘 이름을 Battery15Yellow으로 표시해야해. 
-    2-2. 배터리가 5~15% 및 네트워크 끊김시에는 배터리 아이콘 이름을 Battery15Off으로 표시해야해.
-    3-1. 배터리가 16~35% 및 네트워크 연결시에는 배터리 아이콘 이름을 Battery35Black으로 표시해야해. 
-    3-2. 배터리가 16~35% 및 네트워크 끊김시에는 배터리 아이콘 이름을 Battery35Off으로 표시해야해.
-    4-1. 배터리가 36~65% 및 네트워크 연결시에는 배터리 아이콘 이름을 Battery65Black으로 표시해야해. 
-    4-2. 배터리가 36~65% 및 네트워크 끊김시에는 배터리 아이콘 이름을 Battery65Off으로 표시해야해.
-    5-1. 배터리가 66~85% 및 네트워크 연결시에는 배터리 아이콘 이름을 Battery85Black으로 표시해야해. 
-    5-2. 배터리가 66~85% 및 네트워크 끊김시에는 배터리 아이콘 이름을 Battery85Off으로 표시해야해.
-    6-1. 배터리가 86~100% 및 네트워크 연결시에는 배터리 아이콘 이름을 Battery100Black으로 표시해야해. 
-    6-2. 배터리가 86~100% 및 네트워크 끊김시에는 배터리 아이콘 이름을 Battery100Off으로 표시해야해.
-  */
+  // 배터리 아이콘 결정
+  // 배터리 아이콘 결정
+const getBatteryIcon = (batteryLevel: number, networkConnected: boolean): IconName => {
+  const batteryLevels: { max: number; connected: IconName; disconnected: IconName }[] = [
+    { max: 10, connected: "Battery0Red", disconnected: "Battery0Off" },
+    { max: 20, connected: "Battery15Yellow", disconnected: "Battery15Off" },
+    { max: 45, connected: "Battery35Black", disconnected: "Battery35Off" },
+    { max: 65, connected: "Battery65Black", disconnected: "Battery65Off" },
+    { max: 85, connected: "Battery85Black", disconnected: "Battery85Off" },
+    { max: 100, connected: "Battery100Black", disconnected: "Battery100Off" },
+  ];
 
-  const statusConfig = {
-    danger: {
-      message: '위험 상태입니다!',
-      bgColor: 'bg-red50',
-      textColor: 'text-red900',
-      network: { message: '연결중', textColor: 'text-gray70' },
-      battery: { percentage: '0%', textColor: 'text-red800' },
-      alert: {
-        title: '휴대폰을 충전해 주세요!',
-        description: '현재 배터리 잔량이 20% 미만입니다.',
-      },
-    },
-    warning: {
-      message: '경고 상태입니다!',
-      bgColor: 'bg-yellow50',
-      textColor: 'text-yellow900',
-      network: { message: '연결중', textColor: 'text-gray70' },
-      battery: { percentage: '5%', textColor: 'text-yellow800' },
-      alert: {
-        title: '휴대폰을 충전해 주세요!',
-        description: '현재 배터리 잔량이 20% 미만입니다.',
-      },
-    },
-    safe: {
-      message: '안전한 상태입니다!',
-      bgColor: 'bg-green50',
-      textColor: 'text-green900',
-      network: { message: '연결중', textColor: 'text-gray70' },
-      battery: { percentage: '75%', textColor: 'text-gray70' },
-      alert: {
-        title: '',
-        description: '',
-      },
-    },
-    notNetwork: {
-      message: '오프라인 상태입니다!',
-      bgColor: 'bg-gray5',
-      textColor: 'text-gray90',
-      network: { message: '연결없음', textColor: 'text-gray50' },
-      battery: { percentage: '30%', textColor: 'text-gray50' },
-      alert: {
-        title: '와이파이 또는 모바일 데이터에 연결해 주세요!',
-        description: '현재 인터넷에 접속되어 있지 않습니다.',
-      },
-    },
+  const battery = batteryLevels.find(({ max }) => batteryLevel <= max) || batteryLevels[batteryLevels.length - 1];
+
+  return networkConnected ? battery.connected : battery.disconnected;
+};
+
+
+  // 네트워크 아이콘 결정
+  const getNetworkIcon = (networkConnected: boolean): IconName => {
+    return networkConnected ? "GlobeOn" : "GlobeOff";
+  };
+  //alert 아이콘
+  const getAlertIcon = (status: AlertStatus, networkConnected: boolean): IconName => {
+    return networkConnected ? ALERT_ICONS[status] : "Wifi";
   };
 
-  if (status === 'safe') {
-    iconConfig = ['AlertDefault', 'GlobeOn', 'Battery85Black', 'BatteryAlert'];
-  } else if (status === 'warning') {
-    iconConfig = ['AlertCircle', 'GlobeOn', 'Battery15Yellow', 'BatteryAlert'];
-  } else if (status === 'danger') {
-    iconConfig = ['AlertTriangle', 'GlobeOn', 'Battery0Red'];
-  } else if (status === 'notNetwork') {
-    iconConfig = ['Wifi', 'GlobeOff', 'Battery35Off', 'WifiOffAlert'];
-  }
+  //Alert 메시지 설정
+  const getAlertMessage = (code: string | null):AlertMesssage => {
+    switch (code) {
+      case "NET-04":
+      case "NET-02":
+        return { title: "와이파이 또는 모바일 데이터에 연결해 주세요!", description: "현재 인터넷에 접속되어 있지 않습니다." };
+      case "BAT-02":
+        return { title: "휴대폰을 충전해 주세요!", description: "현재 배터리 잔량이 10% 미만입니다." };
+      case "BAT-01":
+        return { title: "휴대폰을 충전해 주세요!", description: "현재 배터리 잔량이 20% 미만입니다." };
+    
+      default:
+        return { title: "", description: "" };
+    }
+  };
+  //SCR은 사용자가 보지 못하니 추가X
+  // 상태 설정
+  const statusConfig = {
+    danger: {
+      message: networkConnected ? "위험 상태입니다!" : "오프라인 상태입니다!",
+      bgColor: networkConnected ? "bg-red50" : "bg-gray5",
+      textColor: networkConnected ? "text-red900" : "text-gray90",
+      network: { message: networkConnected ? "연결중" : "연결안됨", textColor: "text-gray70" },
+      battery: { percentage: `${batteryLevel}%`, textColor: "text-red800" },
+      alert: getAlertMessage(code),
+    },
+    warning: {
+      message: networkConnected ? "경고 상태입니다!" : "오프라인 상태입니다.",
+      bgColor: networkConnected ? "bg-yellow50" : "bg-gray5",
+      textColor: networkConnected ? "text-yellow900" : "text-gray90",
+      network: { message: networkConnected ? "연결중" : "연결 없음", textColor: "text-gray70" },
+      battery: { percentage: `${batteryLevel}%`, textColor: "text-yellow800" },
+      alert: getAlertMessage(code),
+    },
+    default: {
+      message: "안전한 상태입니다!",
+      bgColor: "bg-green50",
+      textColor: "text-green900",
+      network: { message: "연결중", textColor: "text-gray70" },
+      battery: { percentage: `${batteryLevel}%`, textColor: "text-gray70" },
+      alert: { title: "", description: "" },
+    },
+  };
+  //alert 메세지와 함께 나타나는 아이콘 
+  const getAlertBoxIcon = (code: string | null): IconName => {
+    if (code?.startsWith("BAT")) return "BatteryAlert"; 
+    if (code?.startsWith("NET")) return "WifiOffAlert";
+    return "AlertTriangle"; 
+  };
 
-  const config = statusConfig[status] || null;
+
+  //아이콘 설정
+  const iconConfig: IconName[] = [
+    getAlertIcon(status as AlertStatus,networkConnected), // Alert 아이콘
+    getNetworkIcon(networkConnected), // 네트워크 아이콘
+    getBatteryIcon(batteryLevel, networkConnected), // 배터리 아이콘
+    getAlertBoxIcon(code),
+  ];
+
+  //상태 설정 (안전하면 렌더링 X)
+  const config = statusConfig[status as keyof typeof statusConfig] || null;
   if (!config) return <></>;
+
 
   return (
     <>
@@ -111,11 +134,11 @@ function StatusBox({ status }: { status: StatusType }): React.JSX.Element {
         />
         <BatteryStatus
           icon={iconConfig[2]}
-          message={config.battery.percentage}
+          message={`${batteryLevel}%`}
           textColor={config.battery.textColor}
         />
       </View>
-      {status === 'safe' ? (
+      {status === 'default' ? (
         <></>
       ) : (
         <BatteryAlert
