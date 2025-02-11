@@ -1,5 +1,6 @@
 import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { NavigationProp } from '@react-navigation/native';
 import tw from 'tailwind-react-native-classnames';
 
 import SvgIcon from '@_components/SvgIcon';
@@ -9,7 +10,7 @@ import { TouchableOpacity } from 'react-native';
 
 const Tab = createBottomTabNavigator();
 
-function MainScreen({ navigation }: any): React.JSX.Element {
+function MainScreen(navigation: NavigationProp<any>): React.JSX.Element {
   return (
     <Tab.Navigator initialRouteName="홈">
       <Tab.Screen
